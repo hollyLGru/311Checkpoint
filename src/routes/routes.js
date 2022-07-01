@@ -15,12 +15,14 @@ router.get("/myPANGEANoAuth", controller.entries);
 // get any entry by ID 
 router.get("/myPANGEA/:id", controller.entryID);
 
-
 // delete item
 router.delete("/myPANGEA/:id", auth.verifyJWT, controller.deleteEntry);
 
-// delete item without AUTHENTICATION
-router.delete("/myPANGEANoAuth/:id", controller.deleteEntry);
+// create a new entry
+router.post("/myPANGEA", controller.createEntry);
+
+// Update an entry
+router.put("/myPangea/:id", controller.updateEntry);
 
 
 module.exports = router;

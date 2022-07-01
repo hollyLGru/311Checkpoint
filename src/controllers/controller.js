@@ -1,10 +1,10 @@
 let db = require("../model/db");
 
-//entries was litenItems 
+//ethis will return a list of ALL the entries every made 
 let entries = function(req, res){
     console.log("list Entries");
 
-    let sql = "select id, date, city, country, diary, photo from entries";
+    let sql = "select id, date, city, country, diary, photo, UserID from entries";
 
     db.query(sql, function(err, results){
         if(err){
@@ -22,7 +22,9 @@ let entryID = function(req, res){
     let id = req.params.id;
     // so that when you type in the search bar the id #, this will assign what id you are searching for
 
-    let sql = "select * from entries where id = ? and userId = ?";
+    let sql = "select * from entries where id = ?";
+    // I need to figure out how to get the id of the entry by the ID of the user.. This is something I 
+    // will try to figure out this week
     let params = []; // params is taking the place of the ? 
     params.push(id); // id is because that is the params 
     
@@ -49,14 +51,14 @@ let entryID = function(req, res){
 };
 
 
-
-
 // deleting an item:
 let deleteEntry = function(req, res){
     console.log("we are deleting an entry");
     let id = req.params.id;
 
-    let sql = "delete from entries where id = ? and userId = ?"
+    let sql = "delete from entries where id = ? and UserId = ?";
+    // I need to figure out how to apply to UserId so that only the users can see their own posts
+
     let params = [id]
 
     db.query(sql, params, function(err, results){
@@ -70,6 +72,71 @@ let deleteEntry = function(req, res){
 
 };
 
+// Below is the function that will allow a USER to create a new entry
+let createEntry = function(req, res){
+    console.log("creating a new entry");
+    let input = req.body;
+    // it will be like the task example above that will be typed on postman body 
+    let city = input.city;
+    let country = input.country;
+    let date = input.date;
+    let photo = input.photo;
+    let diary = input.diary;
+
+    if(!city || !country || !date || !diary) // if they do not include the city, country, date, or diary entry (photo can be null)
+        {
+            res.status(400).send("information is required");
+            return;
+        }
+
+        // below is example of parameterized sql which avoids sql injections
+        let sql = "insert into entries(date, city, country, photo, diary) values (?, ?, ?, ?, ?)";
+        let params = [city, country, date, diary];
+
+        db.query(sql, params, function(err, results){
+            if(err){
+                console.log("could not execute SQL insert ", err);
+                res.sentStatus(500);
+            } else {
+                res.sendStatus(204); // we dont have anything to return but that lets client know that everything went according to plan
+            }
+        });
+
+
+};
+
+// function to update/change an entry
+let updateEntry = function(req, res){
+    console.log("we are updating an entry");
+    let id = req.params.id;
+    // get the id from the path param
+    let body = req.body;
+
+    let city = body.city;
+    let country = body.country;
+    let date = body.date;
+    let diary = body.diary;
+    let photo = body.photo;
+
+    //make sure the entry (by ID) is in the body
+    if(!city || !country || !date || !diary){
+        res.status(400).send("entry is required");
+        return;
+    } 
+
+    let sql = "update entries set date = ?, city = ?, country = ?, photo = ?, diary = ? where id = ? ";
+    let params = [task, description, isDoneInt, id];
+
+    db.query(sql, params, function(err, results){
+        if(err){
+            console.log("couldnt execute updated SQL" , err);
+            res.sendStatus(500); //this isnt client's fault so thats why we sent 500
+        } else {
+            res.sendStatus(204); //let client know everything went well but we dont have data to send back 
+        }
+    })
+
+};
 module.exports = {
-    entries, deleteEntry, entryID
+    entries, deleteEntry, entryID, createEntry, updateEntry
 }
