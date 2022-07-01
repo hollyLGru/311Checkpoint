@@ -13,6 +13,9 @@ app.get ("/hello", function(req, res){
 let router = require("./routes/routes");
 app.use(router);
 
+let userRoutes = require("./routes/userRoutes");
+app.use(userRoutes);
+
 
 app.listen(PORT, function(){
     console.log("application started on port", PORT);
