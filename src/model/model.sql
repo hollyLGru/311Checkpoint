@@ -4,6 +4,9 @@
 --Get an entry by ID
 "select * from entries where id = ?"
 
+--Get all of the entries from a specific userID
+"select * from entries where userID = ?"
+
 -- delete an entry by ID if you own the ID (same USERID)
 "delete from entries where id = ? and UserId = ?"
 

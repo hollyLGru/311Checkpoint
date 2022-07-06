@@ -4,6 +4,7 @@ let bodyparser = require("body-parser")
 let PORT = process.env.PORT || 8000;
 let app = express();
 app.use(bodyparser.json());
+app.use(express.static('public'))
 
 app.get ("/hello", function(req, res){
     let name = req.query.name;
