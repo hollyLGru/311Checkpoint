@@ -48,7 +48,7 @@ let login = async function(req, res){
         };
 
         if(results.length > 1){ // if there were more than one emails that showed up, then that is an error because we used UNIQUE for email
-            consolelog("there is more than one long in for ", email);
+            console.log("there is more than one long in for ", email);
             res.sendStatus(500);
             return;
         }; // there is an error because there is more than one of this email in our database 
@@ -64,9 +64,8 @@ let login = async function(req, res){
             // code above is directly from ARGON2 documentation!!!
         let token = {
             "email": email,
-                // how to get the userID from this?
-            "message": "hey girl hey"
-
+            "message": "hey girl hey",
+            "userID" : results[0].id
         };
 
         if(goodPassword){

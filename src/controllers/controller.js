@@ -55,11 +55,12 @@ let entryID = function(req, res){
 let deleteEntry = function(req, res){
     console.log("we are deleting an entry");
     let id = req.params.id;
+    let userID = req.userID;
 
     let sql = "delete from entries where id = ? and UserId = ?";
     // I need to figure out how to apply to UserId so that only the users can see their own posts
 
-    let params = [id]
+    let params = [id, userID]
 
     db.query(sql, params, function(err, results){
         if(err){
@@ -82,7 +83,7 @@ let createEntry = function(req, res){
     let date = input.date;
     let photo = input.photo;
     let diary = input.diary;
-
+    let userID = req.userID;
     if(!city || !country || !date || !diary) // if they do not include the city, country, date, or diary entry (photo can be null)
         {
             res.status(400).send("information is required");
@@ -90,8 +91,8 @@ let createEntry = function(req, res){
         }
 
         // below is example of parameterized sql which avoids sql injections
-        let sql = "insert into entries(date, city, country, photo, diary) values (?, ?, ?, ?, ?)";
-        let params = [city, country, date, diary];
+        let sql = "insert into entries(date, city, country, photo, diary, userID) values (?, ?, ?, ?, ?, ?)";
+        let params = [date, city, country, photo, diary, userID];
 
         db.query(sql, params, function(err, results){
             if(err){
@@ -117,6 +118,7 @@ let updateEntry = function(req, res){
     let date = body.date;
     let diary = body.diary;
     let photo = body.photo;
+    let userID = req.userID;
 
     //make sure the entry (by ID) is in the body
     if(!city || !country || !date || !diary){
@@ -124,8 +126,8 @@ let updateEntry = function(req, res){
         return;
     } 
 
-    let sql = "update entries set date = ?, city = ?, country = ?, photo = ?, diary = ? where id = ? ";
-    let params = [task, description, isDoneInt, id];
+    let sql = "update entries set date = ?, city = ?, country = ?, photo = ?, diary = ? where id = ? and userID = ? ";
+    let params = [date, city, country, photo, diary, id, userID];
 
     db.query(sql, params, function(err, results){
         if(err){

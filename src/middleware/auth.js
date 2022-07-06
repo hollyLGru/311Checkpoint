@@ -21,6 +21,8 @@ let verifyJWT = function(req, res, next){
         try{
             let token = jwt.verify(signedToken, process.env.JWT_SECRET);
             console.log("we want to find what is ", token);
+            req.userID = token.userID;
+            
             next()
         } catch(err){
             res.sendStatus(400);
