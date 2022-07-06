@@ -12,6 +12,12 @@ router.get("/myPANGEA", auth.verifyJWT, controller.entries);
 // get any entry by ID ONLY IF YOU ARE THE OWNER!!!! 
 router.get("/myPANGEA/:id", auth.verifyJWT, controller.entryID);
 
+// get all entries made by a user but only if you are that user 
+router.get("/myPANGEA/userentries/:id", auth.verifyJWT, controller.userID);
+
+// get all of a users entries by continent 
+router.get("/myPANGEA/continent/:continent", auth.verifyJWT, controller.continententries);
+
 // delete item ONLY IF YOU ARE THE OWNER!!!! 
 router.delete("/myPANGEA/:id", auth.verifyJWT, controller.deleteEntry);
 
