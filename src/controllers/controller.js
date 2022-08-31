@@ -135,8 +135,9 @@ let createEntry = function(req, res){
     let photo = input.photo;
     let diary = input.diary;
     let userID = req.userID;
-    let continent = req.continent
-    if(!city || !country || !date || !diary ||!continent) // if they do not include the city, country, date, or diary entry (photo can be null)
+    let continent = input.continent;
+
+    if(!city || !country || !date || !diary || !continent  ) // if they do not include the city, country, date, or diary entry (photo can be null)
         {
             res.status(400).send("information is required");
             return;

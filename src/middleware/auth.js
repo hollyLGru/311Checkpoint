@@ -1,7 +1,5 @@
 let jwt = require("jsonwebtoken");
 
-
-
 //THE FUNCTION VERIFYjwt:
 //code to verify user with token from the header 
 // if the token is BAD , then a status 404

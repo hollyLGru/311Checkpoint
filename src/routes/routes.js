@@ -22,6 +22,7 @@ router.get("/myPANGEA/continent/:continent", auth.verifyJWT, controller.continen
 router.delete("/myPANGEA/:id", auth.verifyJWT, controller.deleteEntry);
 
 // create a new entry and assign ownership/person who is creating it 
+// router.post("/myPANGEA", auth.verifyJWT, controller.createEntry);
 router.post("/myPANGEA", auth.verifyJWT, controller.createEntry);
 
 // Update an entry ONLY IF YOU ARE THE OWNER!!!! 
