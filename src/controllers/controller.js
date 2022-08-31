@@ -4,7 +4,7 @@ let db = require("../model/db");
 let entries = function(req, res){
     console.log("list Entries");
 
-    let sql = "select id, date, city, country, diary, photo, UserID, continent from entries";
+    let sql = "select id, date, city, country, diary, photo, UserID, continent from pangeaEntries";
 
     db.query(sql, function(err, results){
         if(err){
@@ -20,7 +20,7 @@ let entries = function(req, res){
 let continententries = function(req, res){
     console.log("list Entries by continent");
     let continent = req.params.continent;
-    let sql = "select * from entries where continent = ?";
+    let sql = "select * from pangeaEntries where continent = ?";
     let params = []; // params is taking the place of the ? 
     params.push(continent); // id is because that is the params 
 
@@ -43,7 +43,7 @@ let entryID = function(req, res){
     let id = req.params.id;
     // so that when you type in the search bar the id #, this will assign what id you are searching for
 
-    let sql = "select * from entries where id = ?";
+    let sql = "select * from pangeaEntries where id = ?";
     // I need to figure out how to get the id of the entry by the ID of the user.. This is something I 
     // will try to figure out this week
     let params = []; // params is taking the place of the ? 
@@ -77,7 +77,7 @@ let userID = function(req, res){
     let userID = req.params.UserID;
     // so that when you type in the search bar the id #, this will assign what id you are searching for
 
-    let sql = "select * from entries where UserID = ?";
+    let sql = "select * from pangeaEntries where UserID = ?";
     // I need to figure out how to get the id of the entry by the ID of the user.. This is something I 
     // will try to figure out this week
     let params = []; // params is taking the place of the ? 
@@ -106,12 +106,9 @@ let userID = function(req, res){
 let deleteEntry = function(req, res){
     console.log("we are deleting an entry");
     let id = req.params.id;
-    let userID = req.userID;
-
-    let sql = "delete from entries where id = ? and UserId = ?";
+    let sql = "delete from pangeaEntries where id = ?";
     // I need to figure out how to apply to UserId so that only the users can see their own posts
-
-    let params = [id, userID]
+    let params = [id]
 
     db.query(sql, params, function(err, results){
         if(err){
@@ -134,7 +131,6 @@ let createEntry = function(req, res){
     let date = input.date;
     let photo = input.photo;
     let diary = input.diary;
-    let userID = req.userID;
     let continent = input.continent;
 
     if(!city || !country || !date || !diary || !continent  ) // if they do not include the city, country, date, or diary entry (photo can be null)
@@ -144,8 +140,8 @@ let createEntry = function(req, res){
         }
 
         // below is example of parameterized sql which avoids sql injections
-        let sql = "insert into entries(date, city, country, photo, diary, userID) values (?, ?, ?, ?, ?, ?, ?)";
-        let params = [date, city, country, photo, diary, userID, continent];
+        let sql = "insert into pangeaEntries(date, city, country, photo, diary, continent) values (?, ?, ?,  ?, ?, ?)";
+        let params = [date, city, country, photo, diary, continent];
 
         db.query(sql, params, function(err, results){
             if(err){
@@ -164,6 +160,11 @@ let updateEntry = function(req, res){
     console.log("we are updating an entry");
     let id = req.params.id;
     // get the id from the path param
+    if(!id){
+        res.sendStatus(404);
+        return;
+      }
+    // send error if ID doesnt exist
     let body = req.body;
 
     let city = body.city;
@@ -171,7 +172,6 @@ let updateEntry = function(req, res){
     let date = body.date;
     let diary = body.diary;
     let photo = body.photo;
-    let userID = req.userID;
     let continent = body.continent;
     //make sure the entry (by ID) is in the body
     if(!city || !country || !date || !diary || !continent){
@@ -179,10 +179,10 @@ let updateEntry = function(req, res){
         return;
     } 
 
-    let sql = "update entries set date = ?, city = ?, country = ?, photo = ?, diary = ? where id = ? userID = ? and continent = ? ";
-    let params = [date, city, country, photo, diary, id, userID, continent];
+    let sql = "UPDATE pangeaEntries SET date = ?, city = ?, country = ?, photo = ?, diary = ? , continent = ? WHERE id = ? ";
+    let params = [date, city, country, photo, diary,continent, id];
 
-    db.query(sql, params, function(err, results){
+    db.query(sql, params, function(err, res){
         if(err){
             console.log("couldnt execute updated SQL" , err);
             res.sendStatus(500); //this isnt client's fault so thats why we sent 500
