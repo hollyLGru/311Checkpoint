@@ -8,15 +8,13 @@ let jwt = require("jsonwebtoken");
 let register = async function(req, res){ // REMEMBER ASYNC BCUZ WE USE ARGON
     console.log("register");
     // add a user to the database
-
-
     let email = req.body.email;
     let password = req.body.password;
 
     let passwordHash = await argon.hash(password); // remember AWAIT bcuz ARGON 
     let params = [ email, passwordHash];
 
-    let sql = "insert into usersjune14(email, passwordHash) values ( ?, ?)" ;
+    let sql = "insert into usersjune14(email, pw_hash) values ( ?, ?)" ;
 
 
     db.query(sql, params, function(err, results){
