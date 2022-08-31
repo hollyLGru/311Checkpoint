@@ -160,11 +160,7 @@ let updateEntry = function(req, res){
     console.log("we are updating an entry");
     let id = req.params.id;
     // get the id from the path param
-    if(!id){
-        res.sendStatus(404);
-        return;
-      }
-    // send error if ID doesnt exist
+
     let body = req.body;
 
     let city = body.city;
@@ -178,20 +174,18 @@ let updateEntry = function(req, res){
         res.status(400).send("entry is required");
         return;
     } 
-
+    let params = [date, city, country, photo, diary, continent, id];
     let sql = "UPDATE pangeaEntries SET date = ?, city = ?, country = ?, photo = ?, diary = ? , continent = ? WHERE id = ? ";
-    let params = [date, city, country, photo, diary,continent, id];
-
-    db.query(sql, params, function(err, res){
+    
+    db.query(sql, params, (err, results)=>{
         if(err){
-            console.log("couldnt execute updated SQL" , err);
-            res.sendStatus(500); //this isnt client's fault so thats why we sent 500
+          console.log("could not issue query to database", err);
+          res.sendStatus(500);
         } else {
-            res.sendStatus(204); //let client know everything went well but we dont have data to send back 
+          res.sendStatus(204);
         }
-    })
-
-};
+      });
+    };
 module.exports = {
     entries, deleteEntry, entryID, createEntry, updateEntry, userID, continententries
 }
