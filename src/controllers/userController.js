@@ -11,8 +11,8 @@ let register = async function(req, res){ // REMEMBER ASYNC BCUZ WE USE ARGON
     let email = req.body.email;
     let password = req.body.password;
 
-    let passwordHash = await argon.hash(password); // remember AWAIT bcuz ARGON 
-    let params = [ email, passwordHash];
+    let pwHash = await argon.hash(password); // remember AWAIT bcuz ARGON 
+    let params = [ email, pwHash];
 
     let sql = "insert into usersjune14(email, pw_hash) values ( ?, ?)" ;
 
@@ -35,7 +35,7 @@ let login = async function(req, res){
     console.log("LOGIN");
     let email = req.body.email;
     let password = req.body.password;
-
+    let dbPWHash;
     let sql = "select id, pw_hash from usersjune14 where email = ?" ;
     let params = [email];
 
@@ -58,8 +58,8 @@ let login = async function(req, res){
             return;
         }; // if there isnt a result for this email, that means that email login wasnt created
 
-        let hash = results[0].passwordHash; // we need to get the hash from the database
-        let goodPassword = await argon.verify(hash, password);
+        dbPWHash = results[0].pw_hash; // we need to get the hash from the database
+        let goodPassword = await argon.verify(dbPWHash, password);
             // code above is directly from ARGON2 documentation!!!
         let token = {
             "email": email,
