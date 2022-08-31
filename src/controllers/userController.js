@@ -9,7 +9,7 @@ let register = async function(req, res){ // REMEMBER ASYNC BCUZ WE USE ARGON
     console.log("register");
     // add a user to the database
 
-    let sql = "insert into usersjune14(email, passwordHash) values ( ?, ?)" ;
+    let sql = "insert into users(email, passwordHash) values ( ?, ?)" ;
 
     let email = req.body.email;
     let password = req.body.password;
@@ -28,6 +28,29 @@ let register = async function(req, res){ // REMEMBER ASYNC BCUZ WE USE ARGON
 
 };
 
+// let register = async function(req, res){ // REMEMBER ASYNC BCUZ WE USE ARGON
+//     console.log("register");
+//     // add a user to the database
+
+//     let sql = "insert into users(first_name, last_name, email, passwordHash) values (?, ?, ?, ?)" ;
+//     let first_name = req.body.first_name;
+//     let last_name = req.body.last_name;
+//     let email = req.body.email;
+//     let password = req.body.password;
+
+//     let passwordHash = await argon.hash(password); // remember AWAIT bcuz ARGON 
+//     let params = [first_name, last_name, email, passwordHash];
+
+//     db.query(sql, params, function(err, results){
+//         if(err){
+//             console.log("Couldnt add user:", err);
+//             res.sendStatus(500) //bcuz this is our mistake not client
+//         } else {
+//             res.sendStatus(204); //everything went according to plan. 
+//         }
+//     })
+
+// };
 
 // this will take in a username or email && a password.
 // It will return a JSON WEB TOKEN (JWT)
@@ -37,7 +60,7 @@ let login = async function(req, res){
     let email = req.body.email;
     let password = req.body.password;
 
-    let sql = "select id, passwordHash from usersjune14 where email = ?" ;
+    let sql = "select id, first_name, last_name, passwordHash from users where email = ?" ;
     let params = [email];
 
     db.query(sql, params, async function(err, results){
