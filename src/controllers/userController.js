@@ -37,7 +37,7 @@ let login = async function(req, res){
     let email = req.body.email;
     let password = req.body.password;
 
-    let sql = "select id, passwordHash from users where email = ?" ;
+    let sql = "select id, passwordHash from usersjune14 where email = ?" ;
     let params = [email];
 
     db.query(sql, params, async function(err, results){
