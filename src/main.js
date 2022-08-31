@@ -3,6 +3,13 @@ require("dotenv").config();
 let bodyparser = require("body-parser")
 let PORT = process.env.PORT || 8000;
 let app = express();
+
+const cors = require('cors');
+app.use(cors({
+    origin: ['http://localhost:3000']
+}));
+
+
 app.use(bodyparser.json());
 app.use(express.static('public'))
 

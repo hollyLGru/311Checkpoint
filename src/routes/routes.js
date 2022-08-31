@@ -28,22 +28,6 @@ router.post("/myPANGEA", auth.verifyJWT, controller.createEntry);
 router.put("/myPangea/:id", auth.verifyJWT, controller.updateEntry);
 
 
-
-// HEY YOUSIF!!! I AM STILL WORKING ON THESE BELOW!! THANK YOU FOR YOUR HELP :) 
-
-// Share an entry
-// if you are the owner specified by ID, it will update the database for that entry and add a random public ID to that column
-//router.put("myPangea/:id/share", auth.verifyJWT, ????);
-
-//how to get shared link (to get an entry without being logged in/not the owner) 
-//router.get("myPangea/shared/:id/:publicID", ?????????????)
-
-//update entries
-// set publicID = 'slkjfkskldgjsdlkgjgd' where id = 1 and UserID = 1 
-
-//the owner of this document can make it private/unsharable by removing the public random ID and set it to NULL
-//router.put("myPangea/:id/unshare", auth.verifyJWT, ?????);
-
 module.exports = router;
 
 
