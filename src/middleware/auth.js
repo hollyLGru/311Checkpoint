@@ -13,6 +13,7 @@ let verifyJWT = function(req, res, next){
         let parts = header.split(" ");
         //this is because we dont neeed the whole header value, just the signed token portion
         signedToken = parts[1];
+        //EXAMPLE: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJsYWNrQGdtYWlsLmNvbSIsIm1lc3NhZ2UiOiJoZXkgZ2lybCBoZXkiLCJpYXQiOjE2NTU0Mjc0MTF9.3e4-rd-c0f-aJqgsHKaad3RI4MfKytnNJ9LJWvVl1Dg
     }
 
     if(signedToken){

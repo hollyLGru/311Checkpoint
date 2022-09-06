@@ -123,7 +123,7 @@ let deleteEntry = function(req, res){
 
 // Below is the function that will allow a USER to create a new entry
 let createEntry = function(req, res){
-    console.log("creating a new entry");
+    console.log("creating a new entry controllers.js line 126");
     let input = req.body;
     // it will be like the task example above that will be typed on postman body 
     let city = input.city;

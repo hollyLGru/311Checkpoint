@@ -69,8 +69,13 @@ let login = async function(req, res){
 
         if(goodPassword){
             let signedToken = jwt.sign(token, process.env.JWT_SECRET)
-            res.send(signedToken);
+            res.cookie("BearerToken", signedToken, {maxAge: 900000} )
+            //TODO!!!!!! when the user logs in, I need to store the signed token into cookies, 
+            //after it is stored into cookies, it needs to be sent to every request after that
+
+            
             //if the password is good or the correct password, then we will respond with this token
+            res.send("cookies are set, user is signed in")
         } else {
             console.log("???????")
             res.sendStatus(400); // it is 400 because client made mistake, they sent wrong email/pass combo 
