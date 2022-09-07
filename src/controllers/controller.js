@@ -132,6 +132,8 @@ let createEntry = function(req, res){
     let photo = input.photo;
     let diary = input.diary;
     let continent = input.continent;
+    let UserID = input.userID;
+    console.log(input)
 
     if(!city || !country || !date || !diary || !continent  ) // if they do not include the city, country, date, or diary entry (photo can be null)
         {
@@ -140,13 +142,13 @@ let createEntry = function(req, res){
         }
 
         // below is example of parameterized sql which avoids sql injections
-        let sql = "insert into pangeaEntries(date, city, country, photo, diary, continent) values (?, ?, ?,  ?, ?, ?)";
-        let params = [date, city, country, photo, diary, continent];
+        let sql = "insert into pangeaEntries(date, city, country, photo, diary, UserID, continent ) values (?, ?, ?,  ?, ?, ?, ?)";
+        let params = [date, city, country, photo, diary, UserID, continent ];
 
         db.query(sql, params, function(err, results){
             if(err){
                 console.log("could not execute SQL insert ", err);
-                res.sentStatus(500);
+                res.sendStatus(500);
             } else {
                 res.sendStatus(204); // we dont have anything to return but that lets client know that everything went according to plan
             }
