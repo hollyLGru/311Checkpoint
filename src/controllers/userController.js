@@ -53,7 +53,7 @@ let login = async function(req, res){
         }; // there is an error because there is more than one of this email in our database 
 
         if(results.length == 0){
-            console.log("testtesttesttest")
+            console.log("email/password does not exist")
             res.sendStatus(400);
             return;
         }; // if there isnt a result for this email, that means that email login wasnt created

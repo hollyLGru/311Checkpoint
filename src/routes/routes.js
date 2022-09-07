@@ -13,7 +13,9 @@ router.get("/myPANGEA", auth.verifyJWT, controller.entries);
 router.get("/myPANGEA/:id", auth.verifyJWT, controller.entryID);
 
 // get all entries made by a user but only if you are that user 
-router.get("/myPANGEA/userentries/:id", auth.verifyJWT, controller.userID);
+router.get("/myPANGEA/userentries/:id", controller.UserID);
+// router.get("/myPANGEA/userentries/:id", auth.verifyJWT, controller.UserID);
+
 
 // get all of a users entries by continent 
 router.get("/myPANGEA/continent/:continent", auth.verifyJWT, controller.continententries);
