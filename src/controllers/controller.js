@@ -120,7 +120,7 @@ let deleteEntry = function(req, res){
     })
 
 };
-
+//CREATE ENTRY WORKS GREAT!!!
 // Below is the function that will allow a USER to create a new entry
 let createEntry = function(req, res){
     console.log("creating a new entry controllers.js line 126");
