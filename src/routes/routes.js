@@ -13,7 +13,7 @@ router.get("/myPANGEA", auth.verifyJWT, controller.entries);
 router.get("/myPANGEA/:id", auth.verifyJWT, controller.entryID);
 
 // get all entries made by a user but only if you are that user 
-router.get("/myPANGEA/userentries/:id", controller.UserID);
+router.get("/myPANGEA/userentries/:id", controller.getEntriesByUserID );
 // router.get("/myPANGEA/userentries/:id", auth.verifyJWT, controller.UserID);
 
 
