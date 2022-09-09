@@ -69,7 +69,7 @@ let login = async function(req, res){
 
         if(goodPassword){
             let signedToken = jwt.sign(token, process.env.JWT_SECRET)
-            res.cookie("Bearer", signedToken, {maxAge: 900000} )
+            res.cookie("Bearer", signedToken, {maxAge: 6000000} )
 
             //if the password is good or the correct password, then we will respond with this token
             res.header("Authorization", `Bearer ${signedToken}`).json({userID: results[0].id})
