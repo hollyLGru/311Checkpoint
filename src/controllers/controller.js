@@ -43,13 +43,11 @@ let entryID = function(req, res){
     let id = req.params.id;
     // so that when you type in the search bar the id #, this will assign what id you are searching for
 
-    let sql = "select * from pangeaEntries where id = ?";
+    let sql = `select * from pangeaEntries where id = ${id}`;
     // I need to figure out how to get the id of the entry by the ID of the user.. This is something I 
     // will try to figure out this week
-    let params = []; // params is taking the place of the ? 
-    params.push(id); // id is because that is the params 
-    
-    db.query(sql, params, function(err, results){
+
+    db.query(sql, function(err, results){
         if(err) {
             console.log("failed to execute query:", err);
             res.sendStatus(500); 
@@ -101,38 +99,6 @@ let getEntriesByUserID = function(req, res){
     })
     
 };
-
-// // function to return ALL entries per user (userID)
-// let UserID = function(req, res){
-//     // console.log("entry details by user");
-//     let UserID = req.params.UserID;
-//     // so that when you type in the search bar the id #, this will assign what id you are searching for
-
-//     let sql = "select * from pangeaEntries where UserID = ?";
-//     // I need to figure out how to get the id of the entry by the ID of the user.. This is something I 
-//     // will try to figure out this week
-//     let params = []; // params is taking the place of the ? 
-//     params.push(UserID); // id is because that is the params 
-    
-//     db.query(sql, params, function(err, results){
-//         if(err) {
-//             console.log("failed to execute query:", err);
-//             res.sendStatus(500); 
-//             // we send 500 because it is our fault not the client's fault 
-//         } else {
-//             if(results.length == 1){
-//                 res.json(results[0])
-//                 console.log("this is it")
-//             } else if (results.length == 0) {
-//                 // this means clients sent an ID that doesnt exist 
-//                 res.sendStatus(404);
-//                 console.log("no results")
-//                 // 404 means NOT FOUND !!
-//             }
-//         }
-//     })
-    
-// };
 
 
 // deleting an item:
